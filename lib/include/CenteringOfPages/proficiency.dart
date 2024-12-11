@@ -1,5 +1,5 @@
-import 'package:DeveloperFolio/include/Rows/progressbarmain.dart';
-import 'package:DeveloperFolio/include/imagesmain/images.dart';
+import 'package:Teacher_Program/include/Rows/progressbarmain.dart';
+import 'package:Teacher_Program/include/imagesmain/images.dart';
 import 'package:flutter/material.dart';
 
 class ProgressBarDesk extends StatelessWidget {

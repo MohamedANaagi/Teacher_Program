@@ -1,5 +1,5 @@
 
-import 'package:DeveloperFolio/include/CenteringOfPages/skills_desk.dart';
+import 'package:Teacher_Program/include/CenteringOfPages/skills_desk.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

@@ -1,6 +1,6 @@
-import 'package:DeveloperFolio/configure/centeredview.dart';
-import 'package:DeveloperFolio/configure/navigation_service.dart';
-import 'package:DeveloperFolio/configure/routing.dart';
+import 'package:Teacher_Program/configure/centeredview.dart';
+import 'package:Teacher_Program/configure/navigation_service.dart';
+import 'package:Teacher_Program/configure/routing.dart';
 import 'dart:js' as js;
 import 'dart:html' as html;
 

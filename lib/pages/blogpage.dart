@@ -1,4 +1,4 @@
-import 'package:DeveloperFolio/include/Rows/blogcardmain.dart';
+import 'package:Teacher_Program/include/Rows/blogcardmain.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

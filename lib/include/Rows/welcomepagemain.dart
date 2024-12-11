@@ -1,5 +1,5 @@
-import 'package:DeveloperFolio/configure/navigation_service.dart';
-import 'package:DeveloperFolio/configure/routing.dart';
+import 'package:Teacher_Program/configure/navigation_service.dart';
+import 'package:Teacher_Program/configure/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:js' as js;
