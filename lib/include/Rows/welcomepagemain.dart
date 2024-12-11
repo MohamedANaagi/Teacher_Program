@@ -100,6 +100,21 @@ class WelcomePageDesk extends StatelessWidget {
                       },
                     )),
               ),
+              Expanded(
+                child: Container(
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.whatsapp,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        js.context.callMethod(
+                            "open", ["https://medium.com/@naveenjujaray"]);
+                      },
+                    )),
+              ),
             ],
           ),
           SizedBox(

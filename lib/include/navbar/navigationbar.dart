@@ -71,16 +71,16 @@ class NavbarTbDt extends StatelessWidget {
                   NavbarItem('تواصل معنا', ContactRoute),
                   SizedBox(width: 30),
 
-                  NavbarItem('الباقات', BlogRoute),
+                  NavbarItem('قصة النجاح', BlogRoute),
                   SizedBox(width: 30),
 
                   NavbarItem('خطوات التسجيل', AchievementsRoute),
                   SizedBox(width: 30),
 
-                  NavbarItem('الكورسات', EducationRoute),
+                  NavbarItem('الباقات', EducationRoute),
                   SizedBox(width: 30),
 
-                  NavbarItem('معلومات عن القائد', SkillsRoute),
+                  NavbarItem(' عن القائد', SkillsRoute),
                   SizedBox(width: 30),
 
                   NavbarItem('الرئيسيه', HomeRoute),

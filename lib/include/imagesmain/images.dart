@@ -40,7 +40,7 @@ class TwoDesk extends StatelessWidget {
     return Container(
       width: 700,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Image.asset('assets/images/two.png')
+      child: Image.asset('assets/images/freepik__a-middleaged-caucasian-man-with-short-dark-hair-an__48050.png')
     );
   }
 }
