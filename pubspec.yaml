@@ -1,0 +1,40 @@
+name: DeveloperFolio
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <4.0.0" # تعديل التوافق مع إصدارات Dart التي تدعم null safety.
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.0
+  responsive_builder:
+  font_awesome_flutter: ^10.5.0
+  google_fonts: ^4.0.3
+  flutter_rounded_progress_bar:
+  url_launcher: ^6.0.20
+  url_launcher_web:
+  characters:
+  get_it: ^7.6.0
+  adaptive_theme: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/fonts/
+
+  fonts:
+    - family: Agustina
+      fonts:
+        - asset: assets/fonts/Agustina.ttf
