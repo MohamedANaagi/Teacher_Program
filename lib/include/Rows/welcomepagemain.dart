@@ -69,22 +69,7 @@ class WelcomePageDesk extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                    width: 60,
-                    height: 60,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.linkedin,
-                        color: Color.fromRGBO(40, 103, 178, 1),
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod("open",
-                            ["https://www.linkedin.com/in/naveenjujaray"]);
-                      },
-                    )),
-              ),
+
               Expanded(
                 child: Container(
                     width: 60,
@@ -106,7 +91,7 @@ class WelcomePageDesk extends StatelessWidget {
                     height: 60,
                     child: IconButton(
                       icon: Icon(
-                        FontAwesomeIcons.whatsapp,
+                        FontAwesomeIcons.telegram,
                         size: 40,
                       ),
                       onPressed: () {
