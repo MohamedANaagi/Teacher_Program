@@ -60,6 +60,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                       children: <Widget>[
                         Expanded(child: WelcomePage()),
                         Expanded(child: OneDesk()),
+
                       ],
                     ),
                     SizedBox(

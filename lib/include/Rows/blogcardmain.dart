@@ -9,7 +9,7 @@ class BlogCardDesk extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Blogs', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),),
+          Text('نجاح القائد', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 50),),
           SizedBox(height: 10,),
           Text('WITH LOVE FOR DEVELOPING COOL STUFF, I LOVE TO WRITE AND TEACH OTHERS WHAT I HAVE LEARNT.',
           style: TextStyle(color: Colors.grey, fontSize: 22),),

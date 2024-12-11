@@ -50,7 +50,7 @@ class NavbarTbDt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -66,17 +66,24 @@ class NavbarTbDt extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  NavbarItem('Home', HomeRoute),
+
+
+                  NavbarItem('تواصل معنا', ContactRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Skills', SkillsRoute),
+
+                  NavbarItem('الباقات', BlogRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Education', EducationRoute),
+
+                  NavbarItem('خطوات التسجيل', AchievementsRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Achievements', AchievementsRoute),
+
+                  NavbarItem('الكورسات', EducationRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Blogs', BlogRoute),
+
+                  NavbarItem('معلومات عن القائد', SkillsRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Contact', ContactRoute),
+
+                  NavbarItem('الرئيسيه', HomeRoute),
                   SizedBox(width: 10),
                   IconButton(
                     onPressed: () {

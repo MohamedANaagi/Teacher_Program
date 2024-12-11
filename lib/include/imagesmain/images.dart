@@ -6,8 +6,8 @@ class OneDesk extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: 700,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Image.asset('assets/images/one.png')
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        child: Image.asset('assets/images/Book_Club_Logo-removebg-preview.png')
       );
   }
 }

@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       initial: savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'DeveloperFolio',
+        title: 'القائد',
         theme: theme,
         darkTheme: darkTheme,
         home: LayoutTemplate(),
