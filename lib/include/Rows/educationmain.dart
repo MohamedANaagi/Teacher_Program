@@ -6,87 +6,115 @@ class EduDesk extends StatelessWidget {
   const EduDesk({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 350,
-        width: 1000,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 25,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Text(" دورات القائد",style: TextStyle(fontSize: 30,),),
+          SizedBox(height: 20,),
+          Center(
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
+              children: [
+                CourseCard(
+                  title: 'دورات التأسيس',
+                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () {
+                    print('تم النقر على دورات التأسيس');
+                  },
+                ),
+                SizedBox(width: 20,),
+                CourseCard(
+                  title: 'دورات المحوسب',
+                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () {
+                    print('تم النقر على دورات المحوسب');
+                  },
+                ),
+                SizedBox(width: 20,),
+                CourseCard(
+                  title: 'دورات التحصيلي',
+                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () {
+                    print('تم النقر على دورات المحوسب');
+                  },
+                ),
+              ],
             ),
-            Container(
-              width: 450,
-              height: 300,
-              padding: new EdgeInsets.fromLTRB(20, 20, 20, 20),
-              decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white.withOpacity(0.5),
-                  boxShadow: [
-                    new BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10.0,
-                      spreadRadius: 5,
-                      offset: Offset(
-                        5.0, // Move to right 10  horizontally
-                        5.0, // Move to bottom 10 Vertically
-                      ),
-                    ),
-                  ]),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                      "assets/images/Book_Club_Logo-removebg-preview.png"),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'دورة المحوسب',
-                      style: TextStyle(fontSize: 22, color: Colors.orange),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 50,
-            ),
-            Container(
-              width: 450,
-              height: 300,
-              padding: new EdgeInsets.fromLTRB(20, 20, 20, 20),
-              decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white.withOpacity(0.5),
-                  boxShadow: [
-                    new BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10.0,
-                      spreadRadius: 5,
-                      offset: Offset(
-                        5.0, // Move to right 10  horizontally
-                        5.0, // Move to bottom 10 Vertically
-                      ),
-                    ),
-                  ]),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                      "assets/images/Book_Club_Logo-removebg-preview.png"),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-                  InkWell(
-                      onTap: () {},
-                      child: Text(
-                        'دورة التاسي!',
-                        style: TextStyle(fontSize: 22, color: Colors.orange),
-                        textAlign: TextAlign.center,
-                      )),
-                ],
+class CourseCard extends StatefulWidget {
+  final String title;
+  final String imagePath;
+  final VoidCallback onTap;
+
+  const CourseCard({
+    required this.title,
+    required this.imagePath,
+    required this.onTap,
+  });
+
+  @override
+  _CourseCardState createState() => _CourseCardState();
+}
+
+class _CourseCardState extends State<CourseCard> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          width: 450,
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: isHovered
+                ? [BoxShadow(color: Colors.black26, blurRadius: 15)]
+                : [],
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  widget.imagePath,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
               ),
-            ),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(isHovered ? 0.7 : 0.5),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

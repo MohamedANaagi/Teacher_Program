@@ -2,20 +2,20 @@ import 'package:Teacher_Program/include/Rows/achievementsmain.dart';
 import 'package:Teacher_Program/include/Rows/blogcardmain.dart';
 import 'package:flutter/material.dart';
 
-class BlogCenterDesk extends StatelessWidget {
-  const BlogCenterDesk({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Row(
-        children: <Widget>[
-          Expanded(child: BlogCardDesk()),
-        ],
-      ),
-    );
-  }
-}
+// class BlogCenterDesk extends StatelessWidget {
+//   const BlogCenterDesk({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       child: Row(
+//         children: <Widget>[
+//           Expanded(child: BlogCardDesk()),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class BlogCenterMob extends StatelessWidget {
   const BlogCenterMob({Key? key}) : super(key: key);

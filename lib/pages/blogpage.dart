@@ -6,7 +6,7 @@ class BlogPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      desktop: BlogCardDesk(),
+      // desktop: BlogCardDesk(),
       tablet: BlogCardTab(),
       mobile: BlogCardMob(),      
     );

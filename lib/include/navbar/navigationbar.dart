@@ -71,8 +71,8 @@ class NavbarTbDt extends StatelessWidget {
                   NavbarItem('تواصل معنا', ContactRoute),
                   SizedBox(width: 30),
 
-                  NavbarItem('قصة النجاح', BlogRoute),
-                  SizedBox(width: 30),
+                  // NavbarItem('قصة النجاح', BlogRoute),
+                  // SizedBox(width: 30),
 
                   NavbarItem('خطوات التسجيل', AchievementsRoute),
                   SizedBox(width: 30),

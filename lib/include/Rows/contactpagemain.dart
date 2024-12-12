@@ -12,13 +12,13 @@ class ContactPageDesk extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Contact Me", 
+          Text(" تواصل معنا",
           style: TextStyle(fontWeight: FontWeight.w800, height: 1.0, fontSize: 50),
           textAlign: TextAlign.center,
           ),
-          SizedBox(height: 10,),
-          Text('DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.',
-          style: TextStyle(color: Colors.grey, fontSize: 22),),
+          SizedBox(height: 120,),
+          // Text('DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.',
+          // style: TextStyle(color: Colors.grey, fontSize: 22),),
           SizedBox(height: 10,),
           Row(
             children: [
@@ -29,7 +29,7 @@ class ContactPageDesk extends StatelessWidget {
           style: TextStyle(color: Colors.grey, fontSize: 28, fontStyle: FontStyle.italic),),
             ],
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 20,),
          Row(
            children: [
               Text('✉️',
@@ -39,10 +39,10 @@ class ContactPageDesk extends StatelessWidget {
           style: TextStyle(color: Colors.grey, fontSize: 28, fontStyle: FontStyle.italic),),
            ],
          ),
-         SizedBox(height: 20,),
+         SizedBox(height: 120,),
         Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                                   child: Container( width: 60,height: 60,
@@ -65,75 +65,26 @@ class ContactPageDesk extends StatelessWidget {
                        ),
                 ),
                 Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.linkedin, color: Color.fromRGBO(40,103,178,1), size: 40, ),
-                       onPressed: ()
-                       {
-                       js.context.callMethod("open", ["https://www.linkedin.com/in/naveenjujaray"]);
-                       },
-                       )),
-                ),
-                Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.bloggerB, color: Colors.red, size: 40,),
-                       onPressed: ()
-                       {
-                       js.context.callMethod("open", ["https://naveenjujaray.js.org"]);
-                       },
-                       )),
-                ),
-                Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.github,  size: 40,), 
-                      onPressed: ()
-                      {
-                       js.context.callMethod("open", ["https://www.github.com/naveenjujaray"]);
-                       },
+                  child: Container( width: 60,height: 60,
+                      child: IconButton(
+                        icon: Icon(FontAwesomeIcons.telegram, color: Color.fromRGBO(40,103,178,1), size: 40, ),
+                        onPressed: ()
+                        {
+                          js.context.callMethod("open", ["https://www.linkedin.com/in/naveenjujaray"]);
+                        },
                       )),
                 ),
                 Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.gitlab, color: Colors.orange, size: 40,), 
-                      onPressed: ()
-                      {
-                       js.context.callMethod("open", ["https://www.gitlab.com/naveenjujaray"]);
-                       },
+                  child: Container( width: 60,height: 60,
+                      child: IconButton(
+                        icon: Icon(FontAwesomeIcons.whatsapp, color: Color.fromRGBO(40,103,178,1), size: 40, ),
+                        onPressed: ()
+                        {
+                          js.context.callMethod("open", ["https://www.linkedin.com/in/naveenjujaray"]);
+                        },
                       )),
                 ),
-                Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.medium,  size: 40,), 
-                      onPressed: ()
-                      {
-                       js.context.callMethod("open", ["https://medium.com/@naveenjujaray"]);
-                       },
-                       )),
-                ),
-                Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.dev, size: 40,), 
-                      onPressed: ()
-                      {
-                       js.context.callMethod("open", ["https://dev.to/naveenjujaray"]);
-                       },
-                       )),
-                ),
-                Expanded(
-                                  child: Container( width: 60,height: 60,
-                    child: IconButton(
-                      icon: Icon(FontAwesomeIcons.reddit, color: Colors.deepOrangeAccent,size: 40,), 
-                      onPressed: ()
-                      {
-                       js.context.callMethod("open", ["https://www.reddit.com/user/jujaraynaveen"]);
-                       },
-                       )),
-                ),
+
               ],
             ),
         ],

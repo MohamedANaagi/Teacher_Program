@@ -100,11 +100,11 @@ class _HomeDesktopState extends State<HomeDesktop> {
                      SizedBox(
                       height: 75,
                     ),
-                    Row(
-                      children: [
-                        Expanded(child: BlogCenterDesk()),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(child: BlogCenterDesk()),
+                    //   ],
+                    // ),
                      SizedBox(
                       height: 75,
                     ),

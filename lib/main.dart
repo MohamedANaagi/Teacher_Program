@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.amber),
       ),
       dark: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black54,
         primarySwatch: Colors.red,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.amber),
       ),
