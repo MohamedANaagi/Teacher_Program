@@ -7,7 +7,7 @@ class ProgressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
       mobile: ProgressBarMob(),
-      desktop: ProgressBarDesk(),
+      // desktop: ProgressBarDesk(),
       tablet: ProgressBarTab(),    
     );
   }

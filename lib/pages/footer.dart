@@ -20,7 +20,7 @@ class FooterDesk extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Made with ❤️ by Naveen Jujaray',style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.grey.shade500),)
+            Text('Mohamed nagi',style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.grey.shade500),)
           ],
         ),
       ),

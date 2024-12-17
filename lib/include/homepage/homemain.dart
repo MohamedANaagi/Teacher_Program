@@ -75,12 +75,12 @@ class _HomeDesktopState extends State<HomeDesktop> {
                     SizedBox(
                       height: 75,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(child: SkillBarDesk()),
-                        Expanded(child: ThreeDesk()),
-                      ],
-                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Expanded(child: SkillBarDesk()),
+                    //     Expanded(child: ThreeDesk()),
+                    //   ],
+                    // ),
                     SizedBox(
                       height: 75,
                     ),
