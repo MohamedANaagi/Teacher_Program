@@ -32,6 +32,7 @@ class AchieveDesk extends StatelessWidget {
               stepNumber: '03',
               title: 'اضغط على "شراء الدورة"',
               description: 'واكمل إجراءات الدفع',
+
               icon: Icons.shopping_cart,
               backgroundColor: Colors.indigo.shade200,
             ),
@@ -99,7 +100,7 @@ class _StepWidgetState extends State<StepWidget> {
           });
         },
         splashColor: Colors.white30,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         child: AnimatedScale(
           duration: Duration(milliseconds: 200),
           scale: _isHovered ? 1.05 : 1.0, // تغيير الحجم عند التحويم
@@ -107,7 +108,7 @@ class _StepWidgetState extends State<StepWidget> {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: widget.backgroundColor,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black26,

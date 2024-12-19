@@ -5,10 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:js' as js;
 
 class WelcomePageDesk extends StatelessWidget {
-  const WelcomePageDesk({Key? key}) : super(key: key);
+  const  WelcomePageDesk({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
+
       width: 600,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class WelcomePageDesk extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(
                         FontAwesomeIcons.facebook,
-                        color: Colors.blue,
+                        color: Colors.black,
                         size: 40,
                       ),
                       onPressed: () {
@@ -54,20 +55,19 @@ class WelcomePageDesk extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  width: 60,
-                  height: 60,
-                  child: GestureDetector(
-                    child: Icon(
-                      FontAwesomeIcons.twitter,
-                      color: Colors.lightBlue,
-                      size: 40,
-                    ),
-                    onTap: () {
-                      js.context.callMethod(
-                          "open", ["https://twitter.com/naveenjujaray"]);
-                    },
-                  ),
-                ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.twitter,
+                        color: Colors.black,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        js.context.callMethod(
+                            "open", ["https://medium.com/@naveenjujaray"]);
+                      },
+                    )),
               ),
 
               Expanded(
@@ -77,6 +77,7 @@ class WelcomePageDesk extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(
                         FontAwesomeIcons.whatsapp,
+                        color: Colors.black,
                         size: 40,
                       ),
                       onPressed: () {
@@ -92,6 +93,7 @@ class WelcomePageDesk extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(
                         FontAwesomeIcons.telegram,
+                        color: Colors.black,
                         size: 40,
                       ),
                       onPressed: () {

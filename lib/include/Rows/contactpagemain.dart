@@ -12,14 +12,14 @@ class ContactPageDesk extends StatefulWidget {
 
 class _ContactPageDeskState extends State<ContactPageDesk> {
   String? _selectedCategory;
-  final List<String> _categories = [ 'الدعم الفني', 'الاستفسار'];
+  final List<String> _categories = ['الدعم الفني', 'الاستفسار'];
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 600,
       child: Row(
         children: [
-
           Expanded(
             flex: 1,
             child: Padding(
@@ -55,6 +55,8 @@ class _ContactPageDeskState extends State<ContactPageDesk> {
                           });
                         },
                         isExpanded: true,
+                        underline: SizedBox(), // Remove default underline
+                        style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
                   ),
@@ -68,13 +70,14 @@ class _ContactPageDeskState extends State<ContactPageDesk> {
                         print('يرجى اختيار القسم أولاً');
                       }
                     },
-                    child: Text("إرسال الآن",style: TextStyle(color: Colors.white,fontSize: 22),),
+                    child: Text("إرسال الآن", style: TextStyle(color: Colors.white, fontSize: 22)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
                       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      elevation: 5, // Add shadow effect to the button
                     ),
                   ),
                 ],
@@ -122,6 +125,7 @@ class _ContactPageDeskState extends State<ContactPageDesk> {
     );
   }
 }
+
 
 class ContactPageTab extends StatelessWidget {
   const ContactPageTab({Key? key}) : super(key: key);

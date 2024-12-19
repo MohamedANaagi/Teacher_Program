@@ -104,10 +104,12 @@ class FourDesk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Image.asset('assets/images/four.png')
-    );
+
+    //   width: 600,
+    //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+    //   child: Image.asset('assets/images/5124556.jpg')
+    //
+          );
   }
 }
 
