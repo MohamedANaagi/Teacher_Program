@@ -17,7 +17,8 @@ class _ContactPageDeskState extends State<ContactPageDesk> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
+      width: MediaQuery.of(context).size.width *0.8,
+      height:  MediaQuery.of(context).size.height * 0.7,
       child: Row(
         children: [
           Expanded(

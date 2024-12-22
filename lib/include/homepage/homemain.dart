@@ -111,7 +111,7 @@ class _HomeDesktopState extends State<HomeDesktop> {
                      Row(
                       children: [
                         Expanded(child: ContactCenterDesk()),
-                        Expanded(child: FourDesk(),),
+                        // Expanded(child: FourDesk(),),
                       ],
                     ),
                     SizedBox(height: 100,),

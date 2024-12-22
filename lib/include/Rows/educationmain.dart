@@ -1,3 +1,4 @@
+import 'package:Teacher_Program/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:js' as js;
@@ -22,15 +23,22 @@ class EduDesk extends StatelessWidget {
                   title: 'دورات التأسيس',
                   imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
                   onTap: () {
-                    print('تم النقر على دورات التأسيس');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
+
                 ),
                 SizedBox(width: 20,),
                 CourseCard(
                   title: 'دورات المحوسب',
                   imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
                   onTap: () {
-                    print('تم النقر على دورات المحوسب');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
                 ),
                 SizedBox(width: 20,),
@@ -38,7 +46,11 @@ class EduDesk extends StatelessWidget {
                   title: 'دورات التحصيلي',
                   imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
                   onTap: () {
-                    print('تم النقر على دورات المحوسب');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+
                   },
                 ),
               ],

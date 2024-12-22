@@ -6,7 +6,7 @@ class ContactCenterDesk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Flexible(
       child: Row(
         children: <Widget>[
           ContactPageDesk(),
