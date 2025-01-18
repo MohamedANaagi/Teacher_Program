@@ -1,4 +1,4 @@
-import 'package:DeveloperFolio/configure/colors.dart';
+import 'package:Teacher_Program/configure/colors.dart';
 import 'package:flutter/material.dart';
 
 class OneDesk extends StatelessWidget {
@@ -6,8 +6,8 @@ class OneDesk extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: 700,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Image.asset('assets/images/one.png')
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        child: Image.asset('assets/images/Book_Club_Logo-removebg-preview.png')
       );
   }
 }
@@ -40,7 +40,7 @@ class TwoDesk extends StatelessWidget {
     return Container(
       width: 700,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Image.asset('assets/images/two.png')
+      child: Image.asset('assets/images/freepik__a-middleaged-caucasian-man-with-short-dark-hair-an__48050.png')
     );
   }
 }
@@ -104,10 +104,12 @@ class FourDesk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-      child: Image.asset('assets/images/four.png')
-    );
+
+    //   width: 600,
+    //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+    //   child: Image.asset('assets/images/5124556.jpg')
+    //
+          );
   }
 }
 

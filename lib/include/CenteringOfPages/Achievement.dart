@@ -1,5 +1,5 @@
-import 'package:DeveloperFolio/include/Rows/achievementsmain.dart';
-import 'package:DeveloperFolio/include/Rows/educationmain.dart';
+import 'package:Teacher_Program/include/Rows/achievementsmain.dart';
+import 'package:Teacher_Program/include/Rows/educationmain.dart';
 import 'package:flutter/material.dart';
 
 class AchievementDesk extends StatelessWidget {

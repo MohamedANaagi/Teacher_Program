@@ -1,5 +1,5 @@
-import 'package:DeveloperFolio/pages/homepage.dart';
-import 'package:DeveloperFolio/pages/layoutpage.dart';
+import 'package:Teacher_Program/pages/homepage.dart';
+import 'package:Teacher_Program/pages/layoutpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
@@ -25,14 +25,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.amber),
       ),
       dark: ThemeData(
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black54,
         primarySwatch: Colors.red,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red).copyWith(secondary: Colors.amber),
       ),
       initial: savedThemeMode ?? AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'DeveloperFolio',
+        title: 'القائد',
         theme: theme,
         darkTheme: darkTheme,
         home: LayoutTemplate(),

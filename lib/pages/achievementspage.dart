@@ -1,4 +1,4 @@
-import 'package:DeveloperFolio/include/CenteringOfPages/Achievement.dart';
+import 'package:Teacher_Program/include/CenteringOfPages/Achievement.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
