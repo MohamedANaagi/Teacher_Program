@@ -22,6 +22,12 @@ dependencies:
   characters:
   get_it: ^7.6.0
   adaptive_theme: ^3.0.0
+  firebase_core: ^3.9.0
+  firebase_storage: ^12.3.7
+  cloud_firestore:
+  file_picker: ^8.1.7
+
+
 
 dev_dependencies:
   flutter_test:
