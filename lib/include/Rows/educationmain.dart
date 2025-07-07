@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:js' as js;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../videos/pages/code_input_screen.dart';
+import '../videos/pages/videos_screen.dart';
+
 class EduDesk extends StatelessWidget {
   const EduDesk({Key? key}) : super(key: key);
   @override
@@ -11,8 +16,15 @@ class EduDesk extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Text(" دورات القائد",style: TextStyle(fontSize: 30,),),
-          SizedBox(height: 20,),
+          Text(
+            " دورات القائد",
+            style: TextStyle(
+              fontSize: 30,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Center(
             child: Wrap(
               spacing: 20,
@@ -21,36 +33,95 @@ class EduDesk extends StatelessWidget {
               children: [
                 CourseCard(
                   title: 'دورات التأسيس',
-                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  },
+                  imagePath:
+                      'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final isRegistered = prefs.getBool('isRegistered') ?? false;
 
+                    if (isRegistered) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              VideosScreen(courseName: 'دورات التأسيس'),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CodeInputScreen(
+                            courseName: 'دورات التأسيس',
+                            courseKey: 'دورات التأسيس',
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 ),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 CourseCard(
                   title: 'دورات المحوسب',
-                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                  imagePath:
+                      'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final isRegistered = prefs.getBool('isRegistered') ?? false;
+
+                    if (isRegistered) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              VideosScreen(courseName: 'دورات التأسيس'),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CodeInputScreen(
+                            courseName: 'دورات المحوسب',
+                            courseKey: 'دورات المحوسب',
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 CourseCard(
                   title: 'دورات التحصيلي',
-                  imagePath: 'assets/images/Book_Club_Logo-removebg-preview.png',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                  imagePath:
+                      'assets/images/Book_Club_Logo-removebg-preview.png',
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final isRegistered = prefs.getBool('isRegistered') ?? false;
 
+                    if (isRegistered) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              VideosScreen(courseName: 'دورات التأسيس'),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CodeInputScreen(
+                            courseName: 'دورات التحصيلي',
+                            courseKey: 'دورات التحصيلي',
+                          ),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],

@@ -1,3 +1,4 @@
+import 'package:Teacher_Program/admin_panel/domain/entities.dart';
 import '../data_layer/courses_repo_impl.dart';
 
 class FetchCoursesUseCase {

@@ -12,7 +12,7 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
   late AddCourseUseCase addCourseUseCase;
   late DeleteCourseUseCase deleteCourseUseCase;
 
-  List<String> courses = []; // تعديل النوع بما يتناسب مع البيانات القادمة من Firebase Storage
+  List<String> courses = []; // قائمة لتخزين أسماء الكورسات
 
   @override
   void initState() {
@@ -25,10 +25,14 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
   }
 
   Future<void> loadCourses() async {
-    final result = await fetchCoursesUseCase.execute();
-    setState(() {
-      courses = result as List<String>;
-    });
+    try {
+      final result = await fetchCoursesUseCase.execute(); // استرجاع قائمة الكورسات
+      setState(() {
+        courses = result; // تحديث القائمة وعرضها
+      });
+    } catch (e) {
+      print("Error loading courses: $e");
+    }
   }
 
   Future<void> showAddCourseDialog() async {
@@ -49,8 +53,8 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
           TextButton(
             onPressed: () async {
               if (controller.text.isNotEmpty) {
-                await addCourseUseCase.execute(controller.text);
-                loadCourses();
+                await addCourseUseCase.execute(controller.text); // إضافة كورس جديد
+                loadCourses(); // إعادة تحميل القائمة
               }
               Navigator.pop(context);
             },
@@ -77,8 +81,8 @@ class _CourseManagementScreenState extends State<CourseManagementScreen> {
                   trailing: IconButton(
                     icon: Icon(Icons.delete, color: Colors.red),
                     onPressed: () async {
-                      await deleteCourseUseCase.execute(course);
-                      loadCourses();
+                      await deleteCourseUseCase.execute(course); // حذف الكورس
+                      loadCourses(); // إعادة تحميل القائمة
                     },
                   ),
                 );

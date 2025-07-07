@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:Teacher_Program/admin_panel/data_layer/courses_repo_impl.dart';
 import 'package:Teacher_Program/admin_panel/data_layer/video_repo_impl.dart';
@@ -11,8 +10,8 @@ class FetchCoursesUseCase {
 
   FetchCoursesUseCase(this.repository);
 
-  Future<List<Course>> execute() async {
-    return await repository.call();
+  Future<List<String>> execute() async {
+    return await repository.fetchCourses();
   }
 }
 

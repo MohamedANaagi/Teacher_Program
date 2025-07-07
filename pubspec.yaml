@@ -6,12 +6,12 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.0 <4.0.0" # تعديل التوافق مع إصدارات Dart التي تدعم null safety.
+  sdk: ">=2.17.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
+  adaptive_theme: ^3.0.0
   cupertino_icons: ^1.0.0
   responsive_builder:
   font_awesome_flutter: ^10.5.0
@@ -21,13 +21,14 @@ dependencies:
   url_launcher_web:
   characters:
   get_it: ^7.6.0
-  adaptive_theme: ^3.0.0
   firebase_core: ^3.9.0
   firebase_storage: ^12.3.7
   cloud_firestore:
   file_picker: ^8.1.7
-
-
+  shared_preferences:
+  flutter_bloc:
+  cached_network_image:
+  equatable:
 
 dev_dependencies:
   flutter_test:
