@@ -1,4 +1,4 @@
-import 'package:DeveloperFolio/configure/routing.dart';
+import 'package:Teacher_Program/configure/routing.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,13 +16,13 @@ class NavigationDrawer1 extends StatelessWidget {
        
         child: Column(
           children: <Widget>[
-            DrawerItem('Home', FontAwesomeIcons.home, HomeRoute),
-            DrawerItem('Skills', FontAwesomeIcons.tasks, SkillsRoute),
-            DrawerItem('Education', FontAwesomeIcons.graduationCap, EducationRoute),
-            DrawerItem('Open Source', FontAwesomeIcons.folderOpen, ProjectsRoute),
-            DrawerItem('Achievements',FontAwesomeIcons.trophy, AchievementsRoute),
-            DrawerItem('Blogs',FontAwesomeIcons.bloggerB, BlogRoute),
-            DrawerItem('Contact Me', FontAwesomeIcons.user, ContactRoute),
+            DrawerItem('الرئيسيه', FontAwesomeIcons.home, HomeRoute),
+            DrawerItem('معلومات عن القائد', FontAwesomeIcons.tasks, SkillsRoute),
+            DrawerItem('الكورسات', FontAwesomeIcons.graduationCap, EducationRoute),
+            DrawerItem('خطوات التسجيل', FontAwesomeIcons.folderOpen, ProjectsRoute),
+            DrawerItem('الباقات',FontAwesomeIcons.trophy, AchievementsRoute),
+            DrawerItem('قصص النجاح',FontAwesomeIcons.bloggerB, BlogRoute),
+            DrawerItem('تواصل معنا', FontAwesomeIcons.user, ContactRoute),
           ],
         ),
       ),

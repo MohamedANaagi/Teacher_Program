@@ -1,4 +1,4 @@
-import 'package:DeveloperFolio/include/Rows/contactpagemain.dart';
+import 'package:Teacher_Program/include/Rows/contactpagemain.dart';
 import 'package:flutter/material.dart';
 
 class ContactCenterDesk extends StatelessWidget {
@@ -6,7 +6,7 @@ class ContactCenterDesk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Flexible(
       child: Row(
         children: <Widget>[
           ContactPageDesk(),

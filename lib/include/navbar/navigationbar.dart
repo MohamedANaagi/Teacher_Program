@@ -1,6 +1,6 @@
-import 'package:DeveloperFolio/configure/centeredview.dart';
-import 'package:DeveloperFolio/configure/navigation_service.dart';
-import 'package:DeveloperFolio/configure/routing.dart';
+import 'package:Teacher_Program/configure/centeredview.dart';
+import 'package:Teacher_Program/configure/navigation_service.dart';
+import 'package:Teacher_Program/configure/routing.dart';
 import 'dart:js' as js;
 import 'dart:html' as html;
 
@@ -50,7 +50,7 @@ class NavbarTbDt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -66,17 +66,24 @@ class NavbarTbDt extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  NavbarItem('Home', HomeRoute),
+
+
+                  NavbarItem('تواصل معنا', ContactRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Skills', SkillsRoute),
+
+                  // NavbarItem('قصة النجاح', BlogRoute),
+                  // SizedBox(width: 30),
+
+                  NavbarItem('خطوات التسجيل', AchievementsRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Education', EducationRoute),
+
+                  NavbarItem('الباقات', EducationRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Achievements', AchievementsRoute),
+
+                  NavbarItem(' عن القائد', SkillsRoute),
                   SizedBox(width: 30),
-                  NavbarItem('Blogs', BlogRoute),
-                  SizedBox(width: 30),
-                  NavbarItem('Contact', ContactRoute),
+
+                  NavbarItem('الرئيسيه', HomeRoute),
                   SizedBox(width: 10),
                   IconButton(
                     onPressed: () {

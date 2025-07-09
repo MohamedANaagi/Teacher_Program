@@ -1,13 +1,13 @@
-import 'package:DeveloperFolio/configure/centeredview.dart';
-import 'package:DeveloperFolio/include/CenteringOfPages/ContactCenter.dart';
-import 'package:DeveloperFolio/include/CenteringOfPages/Education.dart';
-import 'package:DeveloperFolio/include/Rows/contactpagemain.dart';
-import 'package:DeveloperFolio/pages/achievementspage.dart';
-import 'package:DeveloperFolio/pages/blogpage.dart';
-import 'package:DeveloperFolio/pages/contactpage.dart';
-import 'package:DeveloperFolio/pages/homepage.dart';
-import 'package:DeveloperFolio/pages/progresspage.dart';
-import 'package:DeveloperFolio/pages/skillspage.dart';
+import 'package:Teacher_Program/configure/centeredview.dart';
+import 'package:Teacher_Program/include/CenteringOfPages/ContactCenter.dart';
+import 'package:Teacher_Program/include/CenteringOfPages/Education.dart';
+import 'package:Teacher_Program/include/Rows/contactpagemain.dart';
+import 'package:Teacher_Program/pages/achievementspage.dart';
+import 'package:Teacher_Program/pages/blogpage.dart';
+import 'package:Teacher_Program/pages/contactpage.dart';
+import 'package:Teacher_Program/pages/homepage.dart';
+import 'package:Teacher_Program/pages/progresspage.dart';
+import 'package:Teacher_Program/pages/skillspage.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
