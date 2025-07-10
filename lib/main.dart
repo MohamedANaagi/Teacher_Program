@@ -140,8 +140,6 @@ void main() async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final bool isRegistered = prefs.getBool('isRegistered') ?? false;
-  final bool isRegistered1 = prefs.getBool('isRegistered1') ?? false;
-  final bool isRegistered2 = prefs.getBool('isRegistered2') ?? false;
 
   final AdaptiveThemeMode? savedThemeMode = await AdaptiveTheme.getThemeMode();
   setupLocator();

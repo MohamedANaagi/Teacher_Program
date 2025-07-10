@@ -5,40 +5,42 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:js' as js;
 
 class WelcomePageDesk extends StatelessWidget {
-  const  WelcomePageDesk({Key? key}) : super(key: key);
+  const WelcomePageDesk({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-      width: 600,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "القائد في القدرات، بوابتك نحو مستقبل مشرق",
-            style: TextStyle(
-                fontWeight: FontWeight.w800, height: 1.3, fontSize: 50),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text(
-            "مع القائد في القدرات، النجاح ليس خيارًا بل نتيجة حتمية. ابدأ الآن وكن نجم التميز القادم!",
-            style: TextStyle(
-              fontSize: 21,
-              height: 1.7,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: SingleChildScrollView(
+        child: Container(
+          width: 600,
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "القائد في القدرات، بوابتك نحو مستقبل مشرق",
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  height: 1.0,
+                  fontSize: 50,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30),
+              Text(
+                "مع القائد في القدرات، النجاح ليس خيارًا بل نتيجة حتمية. ابدأ الآن وكن نجم التميز القادم!",
+                style: TextStyle(
+                  fontSize: 21,
+                  height: 1.0,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
                     width: 60,
                     height: 60,
                     child: IconButton(
@@ -51,10 +53,9 @@ class WelcomePageDesk extends StatelessWidget {
                         js.context.callMethod(
                             "open", ["https://www.facebook.com/naveenjujaray"]);
                       },
-                    )),
-              ),
-              Expanded(
-                child: Container(
+                    ),
+                  ),
+                  Container(
                     width: 60,
                     height: 60,
                     child: IconButton(
@@ -67,11 +68,9 @@ class WelcomePageDesk extends StatelessWidget {
                         js.context.callMethod(
                             "open", ["https://medium.com/@naveenjujaray"]);
                       },
-                    )),
-              ),
-
-              Expanded(
-                child: Container(
+                    ),
+                  ),
+                  Container(
                     width: 60,
                     height: 60,
                     child: IconButton(
@@ -84,10 +83,9 @@ class WelcomePageDesk extends StatelessWidget {
                         js.context.callMethod(
                             "open", ["https://medium.com/@naveenjujaray"]);
                       },
-                    )),
-              ),
-              Expanded(
-                child: Container(
+                    ),
+                  ),
+                  Container(
                     width: 60,
                     height: 60,
                     child: IconButton(
@@ -100,29 +98,27 @@ class WelcomePageDesk extends StatelessWidget {
                         js.context.callMethod(
                             "open", ["https://medium.com/@naveenjujaray"]);
                       },
-                    )),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () =>
-                      locator<NavigationService>().navigateTo(ContactRoute),
-                  child: Container(
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 15),
-                    child: Text(
-                      'ابدا الان',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () =>
+                          locator<NavigationService>().navigateTo(ContactRoute),
+                      child: Text(
+                        'ابدا الان',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -130,27 +126,23 @@ class WelcomePageDesk extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    js.context.callMethod("open", [
-                      "https://drive.google.com/file/d/1PZYWMJEQMLIh5g5mXnENQcOL1vlunq6_/view?usp=sharing"
-                    ]);
-                  },
-                  child: Container(
+                  SizedBox(width: 50),
+                  Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 15),
-                    child: Text(
-                      'اعرف المزيد',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
+                    child: GestureDetector(
+                      onTap: () {
+                        js.context.callMethod("open", [
+                          "https://drive.google.com/file/d/1PZYWMJEQMLIh5g5mXnENQcOL1vlunq6_/view?usp=sharing"
+                        ]);
+                      },
+                      child: Text(
+                        'اعرف المزيد',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -158,11 +150,11 @@ class WelcomePageDesk extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

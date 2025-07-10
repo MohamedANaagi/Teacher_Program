@@ -1,9 +1,10 @@
-import 'package:Teacher_Program/include/videos/bloc/code_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:equatable/equatable.dart';
+import 'dart:html' as html;
 
 import 'code_state.dart';
+import 'code_event.dart';
 
 class CodeBloc extends Bloc<CodeEvent, CodeState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -47,9 +48,7 @@ class CodeBloc extends Bloc<CodeEvent, CodeState> {
       }
 
       await doc.reference.update({'isUsed': true});
-
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isRegistered_${event.courseName}', true);
+      html.window.localStorage['isRegistered_${event.courseName}'] = 'true';
 
       emit(CodeValid(courseName: event.courseName));
     } catch (e) {

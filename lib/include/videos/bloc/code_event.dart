@@ -1,4 +1,3 @@
-// bloc/code_event.dart
 import 'package:equatable/equatable.dart';
 
 abstract class CodeEvent extends Equatable {
