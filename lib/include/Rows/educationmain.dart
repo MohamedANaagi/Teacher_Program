@@ -11,13 +11,35 @@ class EduDesk extends StatefulWidget {
   _EduDeskState createState() => _EduDeskState();
 }
 
-class _EduDeskState extends State<EduDesk> {
+class _EduDeskState extends State<EduDesk> with SingleTickerProviderStateMixin {
   late Future<List<String>> _coursesFuture;
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
     _coursesFuture = _fetchCourses();
+
+    // Initialize animation
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0), // Start from right
+      end: Offset.zero, // End at original position
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutCubic,
+    ));
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<List<String>> _fetchCourses() async {
@@ -29,48 +51,50 @@ class _EduDeskState extends State<EduDesk> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return Container(
+      color: Colors.grey.shade100,
+      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40.0),
       child: Column(
         children: [
-          const Text(
-            "دورات القائد",
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
+          SlideTransition(
+            position: _slideAnimation,
+            child: Text(
+              "دورات القائد",
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent.shade700,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          // Removed Expanded and added a SizedBox with constrained height
-          SizedBox(
-            height: MediaQuery.of(context).size.height *
-                0.6, // Adjust height as needed
-            child: FutureBuilder<List<String>>(
-              future: _coursesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return const Center(child: Text('حدث خطأ في تحميل الكورسات'));
-                }
-                final courses = snapshot.data!;
-                return GridView.builder(
-                  shrinkWrap:
-                      true, // Ensure GridView takes only the space it needs
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Disable GridView scrolling
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 300,
-                    childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemCount: courses.length,
-                  itemBuilder: (context, index) {
-                    final course = courses[index];
-                    return CourseCard(
+          const SizedBox(height: 30),
+          FutureBuilder<List<String>>(
+            future: _coursesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return const Center(child: Text('حدث خطأ في تحميل الكورسات'));
+              }
+              final courses = snapshot.data!;
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Two cards per row
+                  childAspectRatio: 1.5, // Wider cards
+                  crossAxisSpacing: 30,
+                  mainAxisSpacing: 30,
+                  mainAxisExtent: 250, // Increased card height
+                ),
+                itemCount: courses.length,
+                itemBuilder: (context, index) {
+                  final course = courses[index];
+                  return SlideTransition(
+                    position: _slideAnimation,
+                    child: CourseCard(
                       title: course,
                       imagePath:
                           'assets/images/Book_Club_Logo-removebg-preview.png',
@@ -99,11 +123,11 @@ class _EduDeskState extends State<EduDesk> {
                         }
                       },
                       key: UniqueKey(),
-                    );
-                  },
-                );
-              },
-            ),
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
@@ -134,13 +158,13 @@ class CourseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.blueAccent.withOpacity(0.3),
-              blurRadius: 15,
-              offset: const Offset(0, 5),
+              color: Colors.blueAccent.withOpacity(0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
             ),
           ],
           gradient: LinearGradient(
-            colors: [Colors.blue.shade100, Colors.blue.shade300],
+            colors: [Colors.blue.shade200, Colors.blue.shade400],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -154,24 +178,37 @@ class CourseCard extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withOpacity(0.2),
                 colorBlendMode: BlendMode.darken,
               ),
             ),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.4),
               ),
+              padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 28,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    letterSpacing: 1.1,
                   ),
                   textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: onTap,
+                  hoverColor: Colors.blueAccent.withOpacity(0.2),
+                  splashColor: Colors.white.withOpacity(0.3),
                 ),
               ),
             ),

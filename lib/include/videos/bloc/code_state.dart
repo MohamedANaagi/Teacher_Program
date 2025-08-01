@@ -13,6 +13,7 @@ class CodeLoading extends CodeState {}
 
 class CodeValid extends CodeState {
   final String courseName;
+
   const CodeValid({required this.courseName});
 
   @override
@@ -21,6 +22,7 @@ class CodeValid extends CodeState {
 
 class CodeError extends CodeState {
   final String message;
+
   const CodeError(this.message);
 
   @override

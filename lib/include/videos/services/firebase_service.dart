@@ -8,9 +8,6 @@ class FirebaseService {
   static Future<DocumentSnapshot> getUserById(String id) =>
       _firestore.collection('users').doc(id).get();
 
-  static Future<void> updateUser(String id) =>
-      _firestore.collection('users').doc(id).update({'isUsed': true});
-
   static Future<List<String>> getCourses() async {
     final ref = _storage.ref().child('courses');
     final result = await ref.listAll();

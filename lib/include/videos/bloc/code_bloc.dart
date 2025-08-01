@@ -1,7 +1,7 @@
+import 'dart:html' as html;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'dart:html' as html;
 
 import 'code_state.dart';
 import 'code_event.dart';
@@ -21,38 +21,36 @@ class CodeBloc extends Bloc<CodeEvent, CodeState> {
     try {
       final querySnapshot = await _firestore
           .collection('users')
-          .where('id', isEqualTo: event.code)
+          .where('code', isEqualTo: event.code)
           .get();
 
-      if (querySnapshot.docs.isEmpty) {
+      if (querySnapshot.docs.isEmpty || !querySnapshot.docs.first.exists) {
         emit(CodeError('الكود غير صحيح'));
         return;
       }
 
       final doc = querySnapshot.docs.first;
-      if (!doc.exists) {
-        emit(CodeError('الكود غير صحيح'));
-        return;
-      }
+      final courses = Map<String, bool>.from(doc['courses'] ?? {});
 
-      final courses = List<String>.from(doc['courses'] ?? []);
-      if (!courses.contains(event.courseName)) {
+      if (!courses.containsKey(event.courseName)) {
         emit(CodeError('هذا الكود غير صالح لهذه الدورة'));
         return;
       }
 
-      final isUsed = doc['isUsed'] ?? false;
-      if (isUsed) {
-        emit(CodeError('هذا الكود مستخدم من قبل'));
+      if (courses[event.courseName]!) {
+        emit(CodeError('هذا الكود مستخدم بالفعل لهذه الدورة'));
         return;
       }
 
-      await doc.reference.update({'isUsed': true});
-      html.window.localStorage['isRegistered_${event.courseName}'] = 'true';
+      // Update only the specific course's usage flag
+      await doc.reference.update({
+        'courses.${event.courseName}': true,
+      });
 
+      html.window.localStorage['isRegistered_${event.courseName}'] = 'true';
       emit(CodeValid(courseName: event.courseName));
     } catch (e) {
-      emit(CodeError('حدث خطأ أثناء التحقق'));
+      emit(CodeError('حدث خطأ أثناء التحقق: ${e.toString()}'));
     }
   }
 }

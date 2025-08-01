@@ -1,345 +1,374 @@
 import 'package:flutter/material.dart';
 import 'dart:js' as js;
-
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContactPageDesk extends StatefulWidget {
   const ContactPageDesk({Key? key}) : super(key: key);
 
   @override
-  State<ContactPageDesk> createState() => _ContactPageDeskState();
+  _ContactPageDeskState createState() => _ContactPageDeskState();
 }
 
-class _ContactPageDeskState extends State<ContactPageDesk> {
+class _ContactPageDeskState extends State<ContactPageDesk>
+    with SingleTickerProviderStateMixin {
   String? _selectedCategory;
   final List<String> _categories = ['الدعم الفني', 'الاستفسار'];
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutCubic,
+    ));
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Container(
+        color: Colors.grey.shade50,
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 60.0),
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.7,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'تواصل معنا',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigo.shade900,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'اختر القسم المناسب لاستفسارك',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.grey.shade300),
+                              color: Colors.grey.shade50,
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: DropdownButton<String>(
+                              value: _selectedCategory,
+                              hint: const Text('اختر القسم'),
+                              items: _categories.map((String category) {
+                                return DropdownMenuItem<String>(
+                                  value: category,
+                                  child: Text(category),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCategory = value;
+                                });
+                              },
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.indigo.shade900,
+                              ),
+                              dropdownColor: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_selectedCategory != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'تم إرسال الطلب للقسم: $_selectedCategory'),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('يرجى اختيار القسم أولاً'),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange.shade600,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 40,
+                                vertical: 15,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 5,
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            child: const Text('إرسال الآن'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(30),
+                    decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/5124556.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        bottomLeft: Radius.circular(40),
+                      ),
+                      color: Colors.indigo.shade600.withOpacity(0.8),
+                    ),
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'تواصل معنا بسهولة',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            'فريقنا جاهز للرد على استفساراتك في أي وقت',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ContactPageTab extends StatefulWidget {
+  const ContactPageTab({Key? key}) : super(key: key);
+
+  @override
+  _ContactPageTabState createState() => _ContactPageTabState();
+}
+
+class _ContactPageTabState extends State<ContactPageTab>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutCubic,
+    ));
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width *0.8,
-      height:  MediaQuery.of(context).size.height * 0.7,
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min, // ensure the column sizes correctly
-                children: [
-                  Text(
-                    'يرجى اختيار القسم:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButton<String>(
-                        value: _selectedCategory,
-                        hint: Text('اختر القسم'),
-                        items: _categories.map((String category) {
-                          return DropdownMenuItem<String>(
-                            value: category,
-                            child: Text(category),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedCategory = value;
-                          });
-                        },
-                        isExpanded: true,
-                        underline: SizedBox(), // Remove default underline
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_selectedCategory != null) {
-                        // أضف الوظيفة التي ستنفذ عند الضغط هنا
-                        print('تم إرسال الطلب للقسم: $_selectedCategory');
-                      } else {
-                        print('يرجى اختيار القسم أولاً');
-                      }
-                    },
-                    child: Text("إرسال الآن", style: TextStyle(color: Colors.white, fontSize: 22)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 5, // Add shadow effect to the button
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/5124556.jpg'), // ضع الصورة هنا
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  bottomLeft: Radius.circular(40),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'تواصل معنا الآن',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'يمكنك من خلال هذه الصفحة التواصل معنا بسهولة عبر اختيار القسم المناسب لك.',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-class ContactPageTab extends StatelessWidget {
-  const ContactPageTab({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        width: 600,
+      color: Colors.grey.shade50,
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Contact Me",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800, height: 1.0, fontSize: 50),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                'تواصل معنا',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                  color: Colors.indigo.shade900,
+                ),
+              ),
             ),
-            SizedBox(
-              height: 10,
+            const SizedBox(height: 10),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                'نحن هنا لمساعدتك! تواصل معنا عبر القنوات التالية',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 18,
+                ),
+              ),
             ),
-            Text(
-              'DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.',
-              style: TextStyle(color: Colors.grey, fontSize: 22),
+            const SizedBox(height: 20),
+            SlideTransition(
+              position: _slideAnimation,
+              child: ContactInfoRow(
+                icon: Icons.phone,
+                text: '+20 10 6540 6332',
+                onTap: () =>
+                    js.context.callMethod("open", ["tel:+201065406332"]),
+              ),
             ),
-            SizedBox(
-              height: 10,
+            const SizedBox(height: 10),
+            SlideTransition(
+              position: _slideAnimation,
+              child: ContactInfoRow(
+                icon: Icons.email,
+                text: 'support@qaedcourses.com',
+                onTap: () => js.context
+                    .callMethod("open", ["mailto:support@qaedcourses.com"]),
+              ),
             ),
-            Row(
-              children: [
-                Text(
-                  '☎️',
-                  style: TextStyle(color: Colors.grey, fontSize: 28),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  '+91 ***** *****',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 28,
-                      fontStyle: FontStyle.italic),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Text(
-                  '✉️',
-                  style: TextStyle(color: Colors.grey, fontSize: 28),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'j***********n@gmail.com',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 28,
-                      fontStyle: FontStyle.italic),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.facebook,
-                          color: Colors.blue,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod("open",
-                              ["https://www.facebook.com/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.twitter,
-                          color: Colors.lightBlue,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://twitter.com/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.linkedin,
-                          color: Color.fromRGBO(40, 103, 178, 1),
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod("open",
-                              ["https://www.linkedin.com/in/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.bloggerB,
-                          color: Colors.red,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://naveenjujaray.js.org"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.github,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://www.github.com/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.gitlab,
-                          color: Colors.orange,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://www.gitlab.com/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.medium,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://medium.com/@naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.dev,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod(
-                              "open", ["https://dev.to/naveenjujaray"]);
-                        },
-                      )),
-                ),
-                Expanded(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      child: IconButton(
-                        icon: Icon(
-                          FontAwesomeIcons.reddit,
-                          color: Colors.deepOrangeAccent,
-                          size: 40,
-                        ),
-                        onPressed: () {
-                          js.context.callMethod("open",
-                              ["https://www.reddit.com/user/jujaraynaveen"]);
-                        },
-                      )),
-                ),
-              ],
+            const SizedBox(height: 30),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 15,
+                runSpacing: 15,
+                children: [
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.telegram,
+                    color: Colors.blue,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://t.me/+201065406332"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.whatsapp,
+                    color: Colors.green,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://wa.me/+201065406332"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.facebook,
+                    color: Colors.blue,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.facebook.com/naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.twitter,
+                    color: Colors.lightBlue,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://twitter.com/naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.linkedin,
+                    color: const Color.fromRGBO(40, 103, 178, 1),
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.linkedin.com/in/naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.bloggerB,
+                    color: Colors.red,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://naveenjujaray.js.org"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.github,
+                    color: Colors.black,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.github.com/naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.gitlab,
+                    color: Colors.orange,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.gitlab.com/naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.medium,
+                    color: Colors.black,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://medium.com/@naveenjujaray"]),
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.reddit,
+                    color: Colors.deepOrangeAccent,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.reddit.com/user/jujaraynaveen"]),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -348,217 +377,249 @@ class ContactPageTab extends StatelessWidget {
   }
 }
 
-class ContactPageMob extends StatelessWidget {
+class ContactPageMob extends StatefulWidget {
   const ContactPageMob({Key? key}) : super(key: key);
+
+  @override
+  _ContactPageMobState createState() => _ContactPageMobState();
+}
+
+class _ContactPageMobState extends State<ContactPageMob>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOutCubic,
+    ));
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        width: 600,
+    return Container(
+      color: Colors.grey.shade50,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Contact Me",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800, height: 1.0, fontSize: 32),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'DISCUSS A PROJECT OR JUST WANT TO SAY HI? MY INBOX IS OPEN FOR ALL.',
-              style: TextStyle(color: Colors.grey, fontSize: 18),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  '☎️',
-                  style: TextStyle(color: Colors.grey, fontSize: 22),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                'تواصل معنا',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                  color: Colors.indigo.shade900,
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  '+91 ***** *****',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 20,
-                      fontStyle: FontStyle.italic),
-                ),
-              ],
+              ),
             ),
-            SizedBox(
-              height: 10,
+            const SizedBox(height: 10),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                'نحن هنا لمساعدتك! تواصل معنا عبر القنوات التالية',
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 16,
+                ),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(
-                    '✉️',
-                    style: TextStyle(color: Colors.grey, fontSize: 22),
+            const SizedBox(height: 20),
+            SlideTransition(
+              position: _slideAnimation,
+              child: ContactInfoRow(
+                icon: Icons.phone,
+                text: '+20 10 6540 6332',
+                onTap: () =>
+                    js.context.callMethod("open", ["tel:+201065406332"]),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SlideTransition(
+              position: _slideAnimation,
+              child: ContactInfoRow(
+                icon: Icons.email,
+                text: 'support@qaedcourses.com',
+                onTap: () => js.context
+                    .callMethod("open", ["mailto:support@qaedcourses.com"]),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SlideTransition(
+              position: _slideAnimation,
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.telegram,
+                    color: Colors.blue,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://t.me/+201065406332"]),
+                    size: 35,
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Container(
-                    child: Text(
-                      'j***********n@gmail.com',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontStyle: FontStyle.italic),
-                    ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.whatsapp,
+                    color: Colors.green,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://wa.me/+201065406332"]),
+                    size: 35,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.facebook,
-                        color: Colors.blue,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://www.facebook.com/naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.twitter,
-                        color: Colors.lightBlue,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://twitter.com/naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.linkedin,
-                        color: Color.fromRGBO(40, 103, 178, 1),
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod("open",
-                            ["https://www.linkedin.com/in/naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.bloggerB,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://naveenjujaray.js.org"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.github,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://www.github.com/naveenjujaray"]);
-                      },
-                    )),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.gitlab,
-                        color: Colors.orange,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://www.gitlab.com/naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.medium,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://medium.com/@naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.dev,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod(
-                            "open", ["https://dev.to/naveenjujaray"]);
-                      },
-                    )),
-                Container(
-                    width: 55,
-                    height: 55,
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.reddit,
-                        color: Colors.deepOrangeAccent,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        js.context.callMethod("open",
-                            ["https://www.reddit.com/user/jujaraynaveen"]);
-                      },
-                    )),
-              ],
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.facebook,
+                    color: Colors.blue,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.facebook.com/naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.twitter,
+                    color: Colors.lightBlue,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://twitter.com/naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.linkedin,
+                    color: const Color.fromRGBO(40, 103, 178, 1),
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.linkedin.com/in/naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.bloggerB,
+                    color: Colors.red,
+                    onPressed: () => js.context
+                        .callMethod("open", ["https://naveenjujaray.js.org"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.github,
+                    color: Colors.black,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.github.com/naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.gitlab,
+                    color: Colors.orange,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.gitlab.com/naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.medium,
+                    color: Colors.black,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://medium.com/@naveenjujaray"]),
+                    size: 35,
+                  ),
+                  SocialIconButton(
+                    icon: FontAwesomeIcons.reddit,
+                    color: Colors.deepOrangeAccent,
+                    onPressed: () => js.context.callMethod(
+                        "open", ["https://www.reddit.com/user/jujaraynaveen"]),
+                    size: 35,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ContactInfoRow extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final VoidCallback onTap;
+
+  const ContactInfoRow({
+    required this.icon,
+    required this.text,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      splashColor: Colors.indigo.withOpacity(0.2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.indigo.shade600,
+              size: 24,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: TextStyle(
+                color: Colors.indigo.shade900,
+                fontSize: 16,
+                fontStyle: FontStyle.normal,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SocialIconButton extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onPressed;
+  final double size;
+
+  const SocialIconButton({
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+    this.size = 40,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        icon,
+        color: color,
+        size: size,
+      ),
+      onPressed: onPressed,
+      padding: const EdgeInsets.all(10),
+      splashRadius: 25,
+      tooltip: icon.toString().split('.').last,
     );
   }
 }

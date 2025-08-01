@@ -16,3 +16,5 @@ class ValidateCode extends CodeEvent {
   @override
   List<Object> get props => [code, courseName];
 }
+
+class ResetCodeState extends CodeEvent {}
