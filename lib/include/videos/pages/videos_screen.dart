@@ -4,6 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // BLoC Events
 abstract class VideoEvent {}
@@ -15,7 +17,9 @@ class FetchVideos extends VideoEvent {
 
 class SelectVideo extends VideoEvent {
   final String videoUrl;
-  SelectVideo(this.videoUrl);
+  final String videoName;
+  final String courseName; // Added to pass courseName
+  SelectVideo(this.videoUrl, this.videoName, this.courseName);
 }
 
 // BLoC States
@@ -26,15 +30,19 @@ class VideoInitial extends VideoState {}
 class VideoLoading extends VideoState {}
 
 class VideoLoaded extends VideoState {
-  final List<String> videoUrls;
+  final List<Map<String, String>> videos; // Stores {url, name}
   final Map<String, CachedVideoPlayerController> videoControllers;
   final Map<String, double> videoProgress;
   final String? selectedVideoUrl;
+  final String? testLink;
+  final String courseName; // Added to store courseName
   VideoLoaded({
-    required this.videoUrls,
+    required this.videos,
     required this.videoControllers,
     required this.videoProgress,
+    required this.courseName,
     this.selectedVideoUrl,
+    this.testLink,
   });
 }
 
@@ -54,20 +62,22 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       FetchVideos event, Emitter<VideoState> emit) async {
     emit(VideoLoading());
     try {
-      // Fetch video URLs from Firebase
+      // Fetch video URLs and names from Firebase
       final storage = FirebaseStorage.instance;
       final ref = storage.ref().child('courses/${event.courseName}');
       final result = await ref.listAll();
-      final videoUrls = await Future.wait(
-        result.items.map((item) => item.getDownloadURL()),
-      );
+      final videos = <Map<String, String>>[];
+      for (var item in result.items) {
+        final url = await item.getDownloadURL();
+        videos.add({'url': url, 'name': item.name});
+      }
 
       // Initialize all video controllers
       final videoControllers = <String, CachedVideoPlayerController>{};
-      for (var url in videoUrls) {
-        final controller = CachedVideoPlayerController.network(url);
+      for (var video in videos) {
+        final controller = CachedVideoPlayerController.network(video['url']!);
         await controller.initialize();
-        videoControllers[url] = controller;
+        videoControllers[video['url']!] = controller;
       }
 
       // Load video progress
@@ -77,15 +87,17 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
           .getKeys()
           .where((key) => key.startsWith('progress_${event.courseName}_')))) {
         final videoUrl =
-            video.replaceFirst('progress_${event.courseName}_', '');
+        video.replaceFirst('progress_${event.courseName}_', '');
         videoProgress[videoUrl] = prefs.getDouble(video) ?? 0.0;
       }
 
       emit(VideoLoaded(
-        videoUrls: videoUrls,
+        videos: videos,
         videoControllers: videoControllers,
         videoProgress: videoProgress,
+        courseName: event.courseName,
         selectedVideoUrl: null,
+        testLink: null,
       ));
     } catch (e) {
       emit(VideoError('Failed to load videos: $e'));
@@ -98,18 +110,42 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       final currentState = state as VideoLoaded;
       emit(VideoLoading());
       final controller = currentState.videoControllers[event.videoUrl];
+      String? testLink;
+
+      // Fetch test link from Firestore
+      print('Querying test link for course: ${event.courseName}, video: ${event.videoName}');
+      try {
+        final querySnapshot = await FirebaseFirestore.instance
+            .collection('tests_links')
+            .where('courseName', isEqualTo: event.courseName)
+            .where('videoName', isEqualTo: event.videoName)
+            .limit(1)
+            .get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+          testLink = querySnapshot.docs.first.data()['testLink'] as String?;
+          print('Test link found: $testLink');
+        } else {
+          print('No test link found for ${event.videoName}');
+        }
+      } catch (e) {
+        print('Error fetching test link: $e');
+      }
+
       if (controller != null &&
           currentState.videoProgress.containsKey(event.videoUrl)) {
         controller.seekTo(Duration(
             seconds: (currentState.videoProgress[event.videoUrl]! *
-                    controller.value.duration.inSeconds)
+                controller.value.duration.inSeconds)
                 .toInt()));
       }
       emit(VideoLoaded(
-        videoUrls: currentState.videoUrls,
+        videos: currentState.videos,
         videoControllers: currentState.videoControllers,
         videoProgress: currentState.videoProgress,
+        courseName: currentState.courseName,
         selectedVideoUrl: event.videoUrl,
+        testLink: testLink,
       ));
     }
   }
@@ -175,7 +211,7 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
         body: BlocBuilder<VideoBloc, VideoState>(
           builder: (context, state) {
             if (state is VideoLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             if (state is VideoError) {
               return Center(child: Text(state.message));
@@ -184,43 +220,149 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Video Player
+                  // Video Player Section
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 2 / 3,
-                      padding: const EdgeInsets.all(16.0),
-                      color: Colors.black,
-                      child: state.selectedVideoUrl != null
-                          ? _buildVideoPlayer(
-                              context, state, state.selectedVideoUrl!)
-                          : Center(
-                              child: Text(
-                                'اختر فيديو لتشغيله',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Black Video Player Container
+                        Container(
+                          padding: const EdgeInsets.all(24.0),
+                          margin: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 10,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height * 0.5,
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: state.selectedVideoUrl != null
+                                  ? _buildVideoPlayer(
+                                  context, state, state.selectedVideoUrl!)
+                                  : const Center(
+                                child: Text(
+                                  'اختر فيديو لتشغيله',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
+                          ),
+                        ),
+                        // Test Link Button (Outside Black Container)
+                        if (state.selectedVideoUrl != null &&
+                            state.testLink != null)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16.0),
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  final url = Uri.parse(state.testLink!);
+                                  if (await canLaunchUrl(url)) {
+                                    await launchUrl(
+                                      url,
+                                      mode: LaunchMode.externalApplication,
+                                      webViewConfiguration:
+                                      const WebViewConfiguration(
+                                          enableJavaScript: true),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('لا يمكن فتح الرابط'),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFF9800),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black38,
+                                        blurRadius: 12,
+                                        offset: Offset(0, 6),
+                                      ),
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32, vertical: 16),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.quiz,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
+                                      SizedBox(width: 12),
+                                      Text(
+                                        'الذهاب إلى الاختبار',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 16.0),
-                  // Video List
+                  const SizedBox(width: 24.0),
+                  // Video List Section
                   Expanded(
                     flex: 1,
                     child: Container(
-                      color: Colors.grey[100],
+                      margin: const EdgeInsets.symmetric(vertical: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
                       child: ListView.builder(
-                        itemCount: state.videoUrls.length,
+                        itemCount: state.videos.length,
                         itemBuilder: (context, index) {
-                          final videoUrl = state.videoUrls[index];
+                          final video = state.videos[index];
+                          final videoUrl = video['url']!;
+                          final videoName = video['name']!;
                           final progress = state.videoProgress[videoUrl] ?? 0.0;
                           return VideoItem(
                             videoUrl: videoUrl,
+                            videoName: videoName,
                             isSelected: videoUrl == state.selectedVideoUrl,
                             onTap: () {
-                              context
-                                  .read<VideoBloc>()
-                                  .add(SelectVideo(videoUrl));
+                              context.read<VideoBloc>().add(
+                                SelectVideo(
+                                    videoUrl, videoName, state.courseName),
+                              );
                             },
                             progress: progress,
                           );
@@ -231,7 +373,7 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
                 ],
               );
             }
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
@@ -253,20 +395,20 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
         seekDuration: Duration(seconds: 10),
         showDurationPlayed: true,
         showDurationRemaining: true,
-        controlBarPadding: EdgeInsets.all(8.0),
-        controlsPadding: EdgeInsets.all(8.0),
+        controlBarPadding: EdgeInsets.all(12.0),
+        controlsPadding: EdgeInsets.all(12.0),
         controlBarDecoration: BoxDecoration(
-          color: Color.fromRGBO(0, 0, 0, 0.5),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Color.fromRGBO(0, 0, 0, 0.7),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         durationPlayedTextStyle: TextStyle(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 16,
           fontFeatures: [FontFeature.tabularFigures()],
         ),
         durationRemainingTextStyle: TextStyle(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 16,
           fontFeatures: [FontFeature.tabularFigures()],
         ),
         autoFadeOutControls: true,
@@ -300,7 +442,7 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
           top: 16,
           left: 16,
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
+            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 36),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -313,12 +455,14 @@ class _VideosScreenContentState extends State<VideosScreenContent> {
 
 class VideoItem extends StatelessWidget {
   final String videoUrl;
+  final String videoName;
   final bool isSelected;
   final VoidCallback onTap;
   final double progress;
 
   const VideoItem({
     required this.videoUrl,
+    required this.videoName,
     required this.isSelected,
     required this.onTap,
     required this.progress,
@@ -328,26 +472,47 @@ class VideoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      elevation: isSelected ? 8 : 2,
-      child: ListTile(
-        leading: Icon(
-          Icons.video_library,
-          color: isSelected ? Colors.blueAccent : Colors.grey,
-        ),
-        title: Text(
-          videoUrl.split('/').last,
-          style: TextStyle(
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      elevation: isSelected ? 10 : 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color(0xFFFF9800).withOpacity(0.1)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: Icon(
+              Icons.video_library,
+              color: isSelected ? const Color(0xFFFF9800) : Colors.grey[600],
+              size: 30,
+            ),
+            title: Text(
+              videoName,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 18,
+                color: isSelected ? const Color(0xFFFF9800) : Colors.black87,
+              ),
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: LinearProgressIndicator(
+                value: progress,
+                backgroundColor: Colors.grey[200],
+                valueColor:
+                const AlwaysStoppedAnimation<Color>(Color(0xFFFF9800)),
+                minHeight: 6,
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
           ),
         ),
-        subtitle: LinearProgressIndicator(
-          value: progress,
-          backgroundColor: Colors.grey[300],
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-        ),
-        tileColor: isSelected ? Colors.blue.shade50 : null,
-        onTap: onTap,
       ),
     );
   }
