@@ -63,7 +63,7 @@ class _EduDeskState extends State<EduDesk> with SingleTickerProviderStateMixin {
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent.shade700,
+                color: Colors.black,
                 letterSpacing: 1.2,
               ),
             ),

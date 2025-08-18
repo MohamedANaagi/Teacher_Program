@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:js' as js;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
+
 class ContactPageDesk extends StatefulWidget {
   const ContactPageDesk({Key? key}) : super(key: key);
 
@@ -20,7 +24,7 @@ class _ContactPageDeskState extends State<ContactPageDesk>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
     _slideAnimation = Tween<Offset>(
@@ -43,7 +47,7 @@ class _ContactPageDeskState extends State<ContactPageDesk>
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-        color: Colors.grey.shade50,
+        color: Colors.grey.shade100,
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 60.0),
         child: Center(
           child: Container(
@@ -54,14 +58,15 @@ class _ContactPageDeskState extends State<ContactPageDesk>
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
             child: Row(
               children: [
+                // القسم النصي
                 Expanded(
                   flex: 1,
                   child: Padding(
@@ -70,25 +75,26 @@ class _ContactPageDeskState extends State<ContactPageDesk>
                       position: _slideAnimation,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'تواصل معنا',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: Colors.indigo.shade900,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 12),
                           Text(
-                            'اختر القسم المناسب لاستفسارك',
+                            'اختر القسم المناسب لاستفسارك وسنقوم بالرد في أقرب وقت',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.shade600,
+                              height: 1.4,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 30),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -120,7 +126,7 @@ class _ContactPageDeskState extends State<ContactPageDesk>
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 40),
                           ElevatedButton(
                             onPressed: () {
                               if (_selectedCategory != null) {
@@ -143,12 +149,12 @@ class _ContactPageDeskState extends State<ContactPageDesk>
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 40,
-                                vertical: 15,
+                                vertical: 16,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(14),
                               ),
-                              elevation: 5,
+                              elevation: 6,
                               textStyle: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -161,45 +167,56 @@ class _ContactPageDeskState extends State<ContactPageDesk>
                     ),
                   ),
                 ),
+
+                // القسم الخاص بالصورة
                 Expanded(
                   flex: 1,
                   child: Container(
-                    padding: const EdgeInsets.all(30),
                     decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
                       image: const DecorationImage(
                         image: AssetImage('assets/images/5124556.jpg'),
                         fit: BoxFit.cover,
                       ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        bottomLeft: Radius.circular(40),
-                      ),
-                      color: Colors.indigo.shade600.withOpacity(0.8),
                     ),
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'تواصل معنا بسهولة',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.35),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                        ),
+                      ),
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'تواصل معنا بسهولة',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                'فريقنا جاهز للرد على استفساراتك في أي وقت',
+                                style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 15),
-                          Text(
-                            'فريقنا جاهز للرد على استفساراتك في أي وقت',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

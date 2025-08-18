@@ -73,7 +73,7 @@ class CodeInputScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.blueAccent),
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
@@ -83,7 +83,7 @@ class CodeInputScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 20),
@@ -94,7 +94,7 @@ class CodeInputScreen extends StatelessWidget {
                         labelText: 'كود $courseName',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.blueAccent),
+                          borderSide: BorderSide(color: Colors.black),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -103,7 +103,7 @@ class CodeInputScreen extends StatelessWidget {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide:
-                              BorderSide(color: Colors.blueAccent, width: 2),
+                              BorderSide(color: Colors.orange, width: 2),
                         ),
                         filled: true,
                         fillColor: Colors.grey.shade50,
@@ -121,10 +121,10 @@ class CodeInputScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     // Submit button or loading indicator
                     state is CodeLoading
-                        ? CircularProgressIndicator(color: Colors.blueAccent)
+                        ? CircularProgressIndicator(color: Colors.orange)
                         : ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor: Colors.orange,
                               foregroundColor: Colors.white,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 12),
@@ -136,7 +136,7 @@ class CodeInputScreen extends StatelessWidget {
                             onPressed: () {
                               if (_controller.text.trim().isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('يرجى إدخال الكود')),
+                                  SnackBar(content: Text('يرجى إدخال الكود',)),
                                 );
                                 return;
                               }

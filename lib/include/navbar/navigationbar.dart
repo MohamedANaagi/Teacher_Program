@@ -27,8 +27,8 @@ class NavbarItem extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 18,
-          color: Colors.indigo.shade900,
+          fontSize: 21,
+          color: Colors.black,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -117,12 +117,7 @@ class _NavbarTbDtState extends State<NavbarTbDt>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: () {
-                html.window.location.reload();
-              },
-              child: NavbarLogo(),
-            ),
+
             Flexible(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -131,6 +126,9 @@ class _NavbarTbDtState extends State<NavbarTbDt>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      SizedBox(
+                        width: 60,
+                      ),
                       NavbarItem('تواصل معنا', ContactRoute),
                       SizedBox(width: itemSpacing),
                       NavbarItem('خطوات التسجيل', AchievementsRoute),
@@ -147,8 +145,8 @@ class _NavbarTbDtState extends State<NavbarTbDt>
                         },
                         icon: Icon(
                           Icons.brightness_3,
-                          size: 25,
-                          color: Colors.indigo.shade900,
+                          size: 28,
+                          color: Colors.black,
                         ),
                         tooltip: 'تبديل الوضع',
                       ),

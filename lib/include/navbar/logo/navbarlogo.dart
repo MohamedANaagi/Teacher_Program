@@ -58,13 +58,6 @@ class NavbarLogoDesk extends StatelessWidget {
         child: Row(
           children: [
 
-            Text(
-              'tap to reload',
-              style: TextStyle(
-                  color: Colors.orange,
-                  fontSize: 30,
-                  fontFamily: 'Agustina'),
-            ),
 
           ],
         )
